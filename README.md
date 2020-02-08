@@ -40,6 +40,8 @@ x = spark.createDataFrame(x, StringType())
 x.select(my_udf('value')).show()  
 ```
 
+If you don't believe it's running in parallel or that it must bring `example_module.py`, delete `example_module.py` from master before running the script above. It executes equivalently. 
+
 # References 
 
 1. https://testdriven.io/blog/deploying-spark-on-kubernetes/
