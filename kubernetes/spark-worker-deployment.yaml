@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spark-worker
-          image: gcr.io/gdax-dnn/spark-nodes/spark-node:0.1 
+          image: gcr.io/gdax-dnn/spark-nodes/spark-node:0.2 
           command: ["/spark-worker"]
           ports:
             - containerPort: 8081

@@ -27,3 +27,5 @@ ADD common.sh spark-master spark-worker /
 ADD spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 ENV PATH $PATH:/opt/spark/bin
 
+ADD example_module.py example_module.py
+

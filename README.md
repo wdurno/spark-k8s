@@ -1,8 +1,8 @@
 # spark-k8s
 
-Run a Spark cluter in a Kubernetes cluster.
+Run a Spark cluter in a Kubernetes cluster. Execute custom module imported from worker nodes. 
 
-**Disclaimer:** This content is based on a tutorial. See my [references](#references).
+This content is based on a tutorial. See my [references](#references).
 
 Tested on GCP. 
 
@@ -21,14 +21,23 @@ kubectl get pods
 ```
 4. run `PySpark` on headnode 
 ```
-kubectl exec <head-node-id> -it pyspark 
+kubectl exec -it <head-node-id>  pyspark 
 ```
 5. Test it
 ```
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
+
+@udf('string')
+def my_udf(x):
+    import sys
+    sys.path.append('/')
+    from example_module import func
+    return func(x)
+
 x = list('aabcsed')
-x = sc.parallelize(x)
-x = x.map(lambda y: (y,1))
-x.reduceByKey(lambda a,b: a+b).collect()
+x = spark.createDataFrame(x, StringType()) 
+x.select(my_udf('value')).show()  
 ```
 
 # References 

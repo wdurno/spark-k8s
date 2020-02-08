@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spark-master
-          image: gcr.io/gdax-dnn/spark-nodes/spark-node:0.1
+          image: gcr.io/gdax-dnn/spark-nodes/spark-node:0.2
           command: ["/spark-master"]
           ports:
             - containerPort: 7077
