@@ -1,0 +1,12 @@
+## Do not edit in-place 
+## Copy to $HOME and modify there 
+
+## required 
+subscription_id: ""
+tenant_id: ""
+
+##defaults 
+terraform_prefix: "SparkK8s" # alphanumeric characters only 
+image_tag: "v1.0.0"
+horovod_instances: 3
+cassandra_instances: 3
