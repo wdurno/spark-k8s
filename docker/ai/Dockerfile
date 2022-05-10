@@ -4,8 +4,9 @@ FROM ubuntu:20.04
 
 ## define spark and hadoop versions
 ENV HADOOP_VERSION 2.7.3
-ENV SPARK_VERSION 2.2.1
+ENV SPARK_VERSION 3.2.1
 ENV DEBIAN_FRONTEND noninteractive
+ENV PYTHONPATH /work
 
 ## circular dependency problem...
 ## strange patch... 
@@ -51,11 +52,10 @@ RUN mkdir -p /opt && \
     echo Spark ${SPARK_VERSION} installed in /opt
 
 ## add scripts and update spark default config
-## TODO add from different path 
 ADD src/spark/common.sh src/spark/spark-master src/spark/spark-worker /
 ADD src/spark/spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 ENV PATH $PATH:/opt/spark/bin
 
-## TODO Don't copy-in scripts until run-time 
-ADD src/python/example_module.py example_module.py 
+## example script 
+ADD src/python/example_module.py /work/example_module.py 
 
