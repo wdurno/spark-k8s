@@ -2,6 +2,7 @@ import os
 import sys 
 import yaml 
 import argparse 
+from kubernetes import client, config
 
 ## args 
 parser = argparse.ArgumentParser(description='Distributed fitting for RL models.') 
@@ -13,8 +14,8 @@ parser.add_argument('--terraform-destroy', dest='terraform_destroy', action='sto
 parser.add_argument('--terraform-destroy-compute', dest='terraform_destroy_compute', action='store_true', \
         help='destroys nodes, retains resource group and acr') 
 parser.add_argument('--skip-terraform', dest='skip_terraform', action='store_true', help='skips all terraform build actions') 
-parser.add_argument('--update-horovod-src', dest='update_horovod_src', action='store_true', \
-        help='a debugging tool. Update horovod workers to local src. Just an update, no Terraform nor Docker commands.') 
+parser.add_argument('--update-work-dir', dest='update_work_dir', type=str, default=None, \
+        help='clear working directory, and copy-in content for all pods') 
 parser.add_argument('--update-pod-src', dest='update_pod_src', type=str, default=None, \
         help='a debugging tool. Updates a specific pod with latest src. Just an update, no Terraform nor Docker '+\
         'commands. Provide the pod name.') 
@@ -42,7 +43,8 @@ from build.terraform import guarantee_phase_1_architecture, guarantee_phase_2_ar
         terraform_destroy_compute
 from build.secret import refresh_keys 
 from build.docker import docker_build
-from build.spark import deploy_spark 
+from build.spark import deploy_spark
+from build.util import run 
 #from build.horovod import deploy_horovod, update_horovod_worker_src 
 #from build.cassandra import cassandra_deploy
 #from build.minio import minio_deploy 
@@ -62,8 +64,21 @@ with open(config_path, 'r') as f:
     args.config['interactive_debugging_mode'] = args.interactive_debugging_mode 
     pass
 
-if args.update_horovod_src:
-    update_horovod_worker_src(args.ROOT, args.config) 
+if args.update_work_dir:
+    config.load_kube_config() 
+    v1 = client.CoreV1Api() 
+    pod_list = v1.list_namespaced_pod('default') 
+    pod_list = [pod.metadata.name for pod in pod_list.items] 
+    print('clearing pods...') 
+    for pod in pod_list: 
+        cmd1 = f'kubectl exec -it {pod} -- rm -rf /work' 
+        cmd2 = f'kubectl exec -it {pod} -- mkdir /work'
+        run(cmd1, os_system=True) 
+        #run(cmd2, os_system=True) 
+    print('copying...') 
+    for pod in pod_list: 
+        cmd3 = f'kubectl cp {args.update_work_dir} {pod}:/work' 
+        run(cmd3, os_system=True) 
     exit(0) 
     pass 
 
