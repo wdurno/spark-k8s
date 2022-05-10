@@ -24,4 +24,8 @@ y = x.map(str)
 z = y.map(func)
 z.collect()
 ```
+6. Run more-complex software by recursively copying-in directory trees to each Spark pods' `/work` directory.
+```
+python3 cli.py --update-work-dir [dir to copy]
+```
 
