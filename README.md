@@ -7,43 +7,21 @@ This content is based on a tutorial. See my [references](#references).
 Tested on GCP. 
 
 **steps:**
-1. build & push image 
+1. Copy `spark-k8s-config.yaml` to your home directory and configure.
+2. Deploy infrastructure with Terraform. Build your Spark base image. Deploy a Spark cluster.
 ```
-./build.sh 
-```
-2. Initialize k8s service and deployments 
-```
-./deploy.sh 
-```
-3. get master-node ID 
-```
-kubectl get pods 
+python3 cli.py 
 ```
 4. run `PySpark` on headnode 
 ```
-kubectl exec -it <head-node-id>  pyspark 
+kubectl exec -it spark-master-0 -- pyspark 
 ```
 5. Test it
 ```
-from pyspark.sql.functions import udf
-from pyspark.sql.types import StringType
-
-@udf('string')
-def my_udf(x):
-    import sys
-    sys.path.append('/')
-    from example_module import func
-    return func(x)
-
-x = list('aabcsed')
-x = spark.createDataFrame(x, StringType()) 
-x.select(my_udf('value')).show()  
+from example_module import func 
+x = sc.parallelize(range(100),20)
+y = x.map(str) 
+z = y.map(func)
+z.collect()
 ```
-
-If you don't believe it's running in parallel or that it must bring `example_module.py`, delete `example_module.py` from master before running the script above. It executes equivalently. 
-
-# References 
-
-1. https://testdriven.io/blog/deploying-spark-on-kubernetes/
-2. https://github.com/testdrivenio/spark-kubernetes 
 

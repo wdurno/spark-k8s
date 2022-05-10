@@ -1,18 +1,33 @@
 
 ## base image
-FROM ubuntu 
+FROM ubuntu:20.04 
 
 ## define spark and hadoop versions
 ENV HADOOP_VERSION 2.7.3
 ENV SPARK_VERSION 2.2.1
+ENV DEBIAN_FRONTEND noninteractive
+
+## circular dependency problem...
+## strange patch... 
+#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
 
 ## requirements 
 RUN apt-get update && \
     apt-get install -y \
         vim \
-        openjdk-8-jdk \
-        python3-pip && \
-    pip3 install \
+        curl \
+        openjdk-8-jdk && \
+    ## install python3.7, since PySpark doesn't like 3.8 
+    apt install software-properties-common -y && \
+    add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt install python3.7 -y && \
+    apt install python3.7-distutils -y && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3.7 get-pip.py && \
+    ## symbolic link from python to python3 
+    ln -s python3.7 /bin/python 
+
+RUN pip3.7 install \
         numpy \
         pandas \
         torch \
@@ -37,10 +52,10 @@ RUN mkdir -p /opt && \
 
 ## add scripts and update spark default config
 ## TODO add from different path 
-ADD common.sh spark-master spark-worker /
-ADD spark-defaults.conf /opt/spark/conf/spark-defaults.conf
+ADD src/spark/common.sh src/spark/spark-master src/spark/spark-worker /
+ADD src/spark/spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 ENV PATH $PATH:/opt/spark/bin
 
 ## TODO Don't copy-in scripts until run-time 
-# ADD example_module.py example_module.py 
+ADD src/python/example_module.py example_module.py 
 

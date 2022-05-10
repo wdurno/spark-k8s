@@ -8,5 +8,5 @@ tenant_id: ""
 ##defaults 
 terraform_prefix: "SparkK8s" # alphanumeric characters only 
 image_tag: "v1.0.0"
-horovod_instances: 3
-cassandra_instances: 3
+compute_instances: 3
+spark_replicas: 6

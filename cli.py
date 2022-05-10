@@ -41,7 +41,8 @@ sys.path.append(os.path.join(args.ROOT, 'src', 'python'))
 from build.terraform import guarantee_phase_1_architecture, guarantee_phase_2_architecture, terraform_destroy, \
         terraform_destroy_compute
 from build.secret import refresh_keys 
-from build.docker import docker_build 
+from build.docker import docker_build
+from build.spark import deploy_spark 
 #from build.horovod import deploy_horovod, update_horovod_worker_src 
 #from build.cassandra import cassandra_deploy
 #from build.minio import minio_deploy 
@@ -52,7 +53,7 @@ from build.docker import docker_build
 ## parse config path 
 if args.config_path is None: 
     ## setting to default 
-    config_path = os.path.join(args.HOME, 'rl-rings-config.yaml') 
+    config_path = os.path.join(args.HOME, 'spark-k8s-config.yaml') 
     pass
 
 ## load config 
@@ -111,15 +112,17 @@ if not args.skip_terraform:
 
 if not args.do_not_helm_install:
     ## deploy all infrastructure 
-    deploy_horovod(args.ROOT, args.config)
-    cassandra_deploy(args.ROOT, args.config) 
-    minio_deploy(args.ROOT, args.config) 
-    postgres_deploy(args.ROOT, args.config) 
-    init_storage(args.ROOT, args.config) 
-    viewer_deploy(args.ROOT, args.config) 
+    deploy_spark(args.ROOT, args.config) 
     pass 
-
-if not args.do_not_run_horovod: 
-    job_id = run_horovod(args.ROOT, args.config) 
-    print(f'horovod job id: {job_id}') 
-    pass 
+#    deploy_horovod(args.ROOT, args.config)
+#    cassandra_deploy(args.ROOT, args.config) 
+#    minio_deploy(args.ROOT, args.config) 
+#    postgres_deploy(args.ROOT, args.config) 
+#    init_storage(args.ROOT, args.config) 
+#    viewer_deploy(args.ROOT, args.config) 
+#    pass 
+#
+#if not args.do_not_run_horovod: 
+#    job_id = run_horovod(args.ROOT, args.config) 
+#    print(f'horovod job id: {job_id}') 
+#    pass 

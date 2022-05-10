@@ -24,7 +24,7 @@ def guarantee_phase_2_architecture(root, config):
     '''
     __copy_phase_2_tf_files(root)
     __terraform_apply(root, config)
-    __install_nvidia_drivers(root) 
+    #__install_nvidia_drivers(root) 
     pass
 
 def terraform_destroy(root, config):
@@ -91,16 +91,14 @@ def __get_base_var_str(config):
     subscription_id = config['subscription_id']
     tenant_id = config['tenant_id']
     tf_prefix = config['terraform_prefix'] 
-    n_compute_nodes = int(config['horovod_instances']) + 1 ## + 1 for viewer 
-    n_storage_nodes = int(config['cassandra_instances']) + 1 ## + 1 for padding 
+    n_compute_nodes = int(config['compute_instances']) + 1 ## + 1 for viewer 
     ## build str
     base_var_str = f' -var="subscription_id={subscription_id}"'+\
             f' -var="tenant_id={tenant_id}"'+\
             f' -var="resource_group_name={tf_prefix}rg"'+\
             f' -var="acr_name={tf_prefix}acr"'+\
             f' -var="k8s_name={tf_prefix}k8s"'+\
-            f' -var="number_of_compute_nodes={n_compute_nodes}"'+\
-            f' -var="number_of_storage_nodes={n_storage_nodes}"'
+            f' -var="number_of_compute_nodes={n_compute_nodes}"' 
     return base_var_str
 
 def __install_nvidia_drivers(root): 
