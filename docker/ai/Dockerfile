@@ -26,14 +26,17 @@ RUN apt-get update && \
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3.7 get-pip.py && \
     ## symbolic link from python to python3 
-    ln -s python3.7 /bin/python 
+    ln -s python3.7 /bin/python && \
+    rm /bin/python3 && \ 
+    ln -s python3.7 /bin/python3  
 
 RUN pip3.7 install \
         numpy \
         pandas \
         torch \
         tqdm \
-        pygame 
+        pygame \
+        azure-storage-blob 
 
 ## download and install hadoop
 RUN mkdir -p /opt && \
