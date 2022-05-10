@@ -1,9 +1,9 @@
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: spark-worker
 spec:
-  replicas: 2
+  replicas: {{ .Values.spark_replicas }} 
   selector:
     matchLabels:
       component: spark-worker
@@ -14,10 +14,18 @@ spec:
     spec:
       containers:
         - name: spark-worker
-          image: gcr.io/gdax-dnn/spark-nodes/spark-node:0.2 
+          imagePullPolicy: Always
+          image: "{{ .Values.image }}" 
           command: ["/spark-worker"]
           ports:
             - containerPort: 8081
           resources:
             requests:
-              cpu: 100m
+              cpu: 1600m
+      imagePullSecrets:
+        - name: acr-creds
+      nodeSelector:
+        agentpool: compute
+      tolerations:
+        - key: kubernetes.azure.com/scalesetpriority
+          operator: "Exists"
