@@ -16,7 +16,10 @@ spec:
       containers:
         - name: spark-master
           imagePullPolicy: Always
-          image: "{{ .Values.image }}" 
+          image: "{{ .Values.image }}"
+          env:
+            - name: "STORAGE_KEY"
+              value: "{{ .Values.storage_key }}"
           command: ["/spark-master"]
           ports:
             - containerPort: 7077

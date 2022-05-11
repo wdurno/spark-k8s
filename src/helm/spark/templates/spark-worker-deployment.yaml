@@ -16,6 +16,9 @@ spec:
         - name: spark-worker
           imagePullPolicy: Always
           image: "{{ .Values.image }}" 
+          env:
+            - name: "STORAGE_KEY"
+              value: "{{ .Values.storage_key }}"
           command: ["/spark-worker"]
           ports:
             - containerPort: 8081

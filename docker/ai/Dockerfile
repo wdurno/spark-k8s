@@ -35,8 +35,10 @@ RUN pip3.7 install \
         pandas \
         torch \
         tqdm \
+        gym \
         pygame \
-        azure-storage-blob 
+        azure-storage-blob \
+        matplotlib 
 
 ## download and install hadoop
 RUN mkdir -p /opt && \

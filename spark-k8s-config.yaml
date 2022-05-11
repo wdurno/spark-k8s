@@ -10,3 +10,4 @@ terraform_prefix: "SparkK8s" # alphanumeric characters only
 image_tag: "v1.0.0"
 compute_instances: 3
 spark_replicas: 6
+storage_key: '[storage key]'

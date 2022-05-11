@@ -1,4 +1,5 @@
 
 image: ""
 spark_replicas: 8 
-
+max_workers: 10 
+storage_key: ""

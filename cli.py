@@ -69,7 +69,7 @@ if args.update_work_dir:
     v1 = client.CoreV1Api() 
     pod_list = v1.list_namespaced_pod('default') 
     pod_list = [pod.metadata.name for pod in pod_list.items] 
-    print('clearing pods...') 
+    print('clearing...') 
     for pod in pod_list: 
         cmd1 = f'kubectl exec -it {pod} -- rm -rf /work' 
         cmd2 = f'kubectl exec -it {pod} -- mkdir /work'
