@@ -1,20 +1,12 @@
-# Needs a mechanism to copy-in spark scripts 
-#
-#apiVersion: autoscaling/v2
-#kind: HorizontalPodAutoscaler
-#metadata:
-#  name: spark-autoscaler
-#spec:
-#  scaleTargetRef:
-#    apiVersion: apps/v1
-#    kind: Deployment
-#    name: spark-worker
-#  minReplicas: 1
-#  maxReplicas: {{ .Values.max_workers }}
-#  metrics:
-#  - type: Resource
-#    resource:
-#      name: cpu
-#      target:
-#        type: Utilization
-#        averageUtilization: 50
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spark-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spark-worker
+  minReplicas: 1
+  maxReplicas: 40
+  targetCPUUtilizationPercentage: 50 # target CPU utilization 

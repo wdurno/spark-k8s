@@ -11,7 +11,7 @@ def deploy_spark(root, conf):
     cmd2 = f'helm upgrade spark {root}/src/helm/spark --install '+\
             f'--set image={image_name} '+\
             f'--set spark_replicas={spark_replicas} '+\
-            f'--set storage_key={storage_key}'
+            f'--set storage_key="{storage_key}"'
     run(cmd2, os_system=True) 
     pass 
 

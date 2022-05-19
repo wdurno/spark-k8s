@@ -27,6 +27,7 @@ spec:
           resources:
             requests:
               cpu: 1800m
+              memory: 10Gi
       imagePullSecrets:
         - name: acr-creds
       tolerations:

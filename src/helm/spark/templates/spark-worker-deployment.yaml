@@ -24,7 +24,7 @@ spec:
             - containerPort: 8081
           resources:
             requests:
-              cpu: 1600m
+              cpu: 1400m
       imagePullSecrets:
         - name: acr-creds
       nodeSelector:

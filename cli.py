@@ -68,7 +68,7 @@ if args.update_work_dir:
     config.load_kube_config() 
     v1 = client.CoreV1Api() 
     pod_list = v1.list_namespaced_pod('default') 
-    pod_list = [pod.metadata.name for pod in pod_list.items] 
+    pod_list = [pod.metadata.name for pod in pod_list.items if 'master' in pod.metadata.name] 
     print('clearing...') 
     for pod in pod_list: 
         cmd1 = f'kubectl exec -it {pod} -- rm -rf /work' 

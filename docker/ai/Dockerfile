@@ -17,6 +17,8 @@ RUN apt-get update && \
     apt-get install -y \
         vim \
         curl \
+        zip \
+        unzip \
         openjdk-8-jdk && \
     ## install python3.7, since PySpark doesn't like 3.8 
     apt install software-properties-common -y && \
@@ -38,7 +40,8 @@ RUN pip3.7 install \
         gym \
         pygame \
         azure-storage-blob \
-        matplotlib 
+        matplotlib \
+        pyspark  
 
 ## download and install hadoop
 RUN mkdir -p /opt && \

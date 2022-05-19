@@ -28,4 +28,12 @@ z.collect()
 ```
 python3 cli.py --update-work-dir [dir to copy]
 ```
-
+7. spark-submit
+```
+## example 
+spark-submit \
+  --master spark://spark-master:7077 \
+  --supervise \
+  --py-files work/regmem.py \
+  work/spark-k8s-experiment-3-comp-feasiblity.py 1> stdout 2> stderr
+```
