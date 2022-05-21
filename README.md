@@ -30,10 +30,12 @@ python3 cli.py --update-work-dir [dir to copy]
 ```
 7. spark-submit
 ```
-## example 
 spark-submit \
   --master spark://spark-master:7077 \
   --supervise \
   --py-files work/regmem.py \
+  --conf "spark.python.worker.memory=2g" \
+  --conf "spark.executor.cores=1" \
+  --conf "spark.task.cpus=1" \
   work/spark-k8s-experiment-6-optimal-lambda.py 1> stdout 2> stderr
 ```
