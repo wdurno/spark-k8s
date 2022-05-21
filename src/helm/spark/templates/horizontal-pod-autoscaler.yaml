@@ -8,5 +8,5 @@ spec:
     kind: Deployment
     name: spark-worker
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 80
   targetCPUUtilizationPercentage: 50 # target CPU utilization 

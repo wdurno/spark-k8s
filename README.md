@@ -35,5 +35,5 @@ spark-submit \
   --master spark://spark-master:7077 \
   --supervise \
   --py-files work/regmem.py \
-  work/spark-k8s-experiment-3-comp-feasiblity.py 1> stdout 2> stderr
+  work/spark-k8s-experiment-6-optimal-lambda.py 1> stdout 2> stderr
 ```
