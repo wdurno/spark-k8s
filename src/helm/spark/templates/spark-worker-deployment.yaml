@@ -25,6 +25,7 @@ spec:
           resources:
             requests:
               cpu: 1400m
+              memory: 4Gi
       imagePullSecrets:
         - name: acr-creds
       nodeSelector:
