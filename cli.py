@@ -16,6 +16,7 @@ parser.add_argument('--terraform-destroy-compute', dest='terraform_destroy_compu
 parser.add_argument('--skip-terraform', dest='skip_terraform', action='store_true', help='skips all terraform build actions') 
 parser.add_argument('--update-work-dir', dest='update_work_dir', type=str, default=None, \
         help='clear working directory, and copy-in content for all pods') 
+parser.add_argument('--gpu', dest='gpu', action='store_true', help='use GPUs') 
 parser.add_argument('--update-pod-src', dest='update_pod_src', type=str, default=None, \
         help='a debugging tool. Updates a specific pod with latest src. Just an update, no Terraform nor Docker '+\
         'commands. Provide the pod name.') 
@@ -62,6 +63,7 @@ if args.config_path is None:
 with open(config_path, 'r') as f: 
     args.config = yaml.safe_load(f) 
     args.config['interactive_debugging_mode'] = args.interactive_debugging_mode 
+    args.config['gpu'] = args.gpu 
     pass
 
 if args.update_work_dir:

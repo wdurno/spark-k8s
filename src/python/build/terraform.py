@@ -92,13 +92,22 @@ def __get_base_var_str(config):
     tenant_id = config['tenant_id']
     tf_prefix = config['terraform_prefix'] 
     n_compute_nodes = int(config['compute_instances']) + 1 ## + 1 for viewer 
+    compute_vm_size_no_gpu = config['compute_vm_size_no_gpu'] 
+    compute_vm_size_gpu = config['compute_vm_size_gpu'] 
+    gpu = config['gpu'] 
+    if gpu:
+        compute_node_type = compute_vm_size_gpu 
+    else:
+        compute_node_type = compute_vm_size_no_gpu 
+        pass 
     ## build str
     base_var_str = f' -var="subscription_id={subscription_id}"'+\
             f' -var="tenant_id={tenant_id}"'+\
             f' -var="resource_group_name={tf_prefix}rg"'+\
             f' -var="acr_name={tf_prefix}acr"'+\
             f' -var="k8s_name={tf_prefix}k8s"'+\
-            f' -var="number_of_compute_nodes={n_compute_nodes}"' 
+            f' -var="number_of_compute_nodes={n_compute_nodes}"'+\
+            f' -var="compute_node_type={compute_node_type}"'
     return base_var_str
 
 def __install_nvidia_drivers(root): 

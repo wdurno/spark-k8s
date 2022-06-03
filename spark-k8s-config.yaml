@@ -9,5 +9,7 @@ tenant_id: ""
 terraform_prefix: "SparkK8s" # alphanumeric characters only 
 image_tag: "v1.0.0"
 compute_instances: 3
+compute_vm_size_no_gpu: "standard_ds3_v2"
+compute_vm_size_gpu: "standard_nc6s_v2"
 spark_replicas: 6
-storage_key: '[storage key]'
+storage_key: "[storage key]"
