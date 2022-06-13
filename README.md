@@ -33,7 +33,7 @@ python3 cli.py --update-work-dir [dir to copy]
 spark-submit \
   --master spark://spark-master:7077 \
   --supervise \
-  --py-files work/regmem.py,work/az_blob_util.py \
+  --py-files work/regmem.py,work/az_blob_util.py,work/regmem_lstm.py \
   --conf "spark.python.worker.memory=4g" \
   --conf "spark.executor.cores=1" \
   --conf "spark.task.cpus=1" \
