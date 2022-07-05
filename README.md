@@ -33,9 +33,7 @@ python3 cli.py --update-work-dir [dir to copy]
 spark-submit \
   --master spark://spark-master:7077 \
   --supervise \
-  --py-files work/regmem.py,work/az_blob_util.py,work/regmem_lstm.py \
+  --py-files work/regmem.py,work/az_blob_util.py,work/regmem_cnn.py,work/lanczos.py \
   --conf "spark.python.worker.memory=4g" \
-  --conf "spark.executor.cores=1" \
-  --conf "spark.task.cpus=1" \
-  work/spark-k8s-experiment-5-long-games.py 1> stdout 2> stderr
+  work/spark-k8s-experiment-3-comp-feasiblity.py 1> stdout 2> stderr
 ```

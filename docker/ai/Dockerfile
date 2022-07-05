@@ -3,14 +3,15 @@
 FROM ubuntu:20.04 
 
 ## define spark and hadoop versions
-ENV HADOOP_VERSION 2.7.3
+#ENV HADOOP_VERSION 2.7.3
+ENV HADOOP_VERSION 3.3.1 
 ENV SPARK_VERSION 3.2.1
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONPATH /work
-
-## circular dependency problem...
-## strange patch... 
-#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
+ENV SPARK_HOME /opt/spark
+ENV PATH $SPARK_HOME:$PATH 
+ENV HADOOP_HOME /opt/hadoop
+ENV LD_LIBRARY_PATH /opt/hadoop/lib/native
 
 ## requirements 
 RUN apt-get update && \
@@ -42,7 +43,8 @@ RUN pip3.7 install \
         pygame \
         azure-storage-blob \
         matplotlib \
-        pyspark  
+        pyspark \
+        scipy  
 
 ## download and install hadoop
 RUN mkdir -p /opt && \

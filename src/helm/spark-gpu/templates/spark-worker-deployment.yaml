@@ -21,13 +21,16 @@ spec:
               value: "{{ .Values.storage_key }}"
           command: 
             - "bash" 
-            - "/run-worker.sh"  
+            - "/run-worker.sh" 
           ports:
             - containerPort: 8081
           resources:
             requests:
               cpu: 1400m
               memory: 4Gi
+              nvidia.com/gpu: {{ .Values.gpu }}
+            limits: 
+              nvidia.com/gpu: {{ .Values.gpu  }}
       imagePullSecrets:
         - name: acr-creds
       nodeSelector:
