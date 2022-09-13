@@ -94,11 +94,15 @@ RUN mkdir -p /opt && \
     ln -s spark-${SPARK_VERSION}-bin-hadoop2.7 spark && \
     echo Spark ${SPARK_VERSION} installed in /opt
 
+## allows secure screen sharing  
+RUN openssl rand -hex 32 > /root/.Xauthority  
+
 ## add scripts and update spark default config
 ADD src/spark/common.sh src/spark/spark-master src/spark/spark-worker /
 ADD src/spark/spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 ENV PATH $PATH:/opt/spark/bin
 
 ## example script 
-ADD src/python/example_module.py /work/example_module.py 
+ADD src/python/example_module.py /work/example_module.py
+ADD src/python/debug.py /work/debug.py  
 ADD src/scripts/run-worker.sh /run-worker.sh 

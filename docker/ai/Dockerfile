@@ -21,6 +21,9 @@ RUN apt-get update && \
         zip \
         unzip \
         xvfb \
+        tmux \
+        fluxbox \
+        x11vnc \
         openjdk-8-jdk && \
     ## install python3.7, since PySpark doesn't like 3.8 
     apt install software-properties-common -y && \
@@ -69,4 +72,5 @@ ENV PATH $PATH:/opt/spark/bin
 
 ## example script 
 ADD src/python/example_module.py /work/example_module.py 
+ADD src/python/debug.py /work/debug.py 
 ADD src/scripts/run-worker.sh /run-worker.sh
