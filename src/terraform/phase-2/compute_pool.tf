@@ -8,6 +8,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "compute_pool" {
   priority              = "Spot"
   spot_max_price        = -1
   eviction_policy       = "Delete"
+  
+  enable_auto_scaling = "true" 
+  min_count = 1 
+  max_count = 20 
 
   tags = {
     node_type = "compute"

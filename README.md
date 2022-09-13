@@ -28,4 +28,13 @@ z.collect()
 ```
 python3 cli.py --update-work-dir [dir to copy]
 ```
-
+7. spark-submit
+```
+spark-submit \
+  --master spark://spark-master:7077 \
+  --supervise \
+  --py-files work/regmem.py,work/az_blob_util.py,work/regmem_cnn.py,work/lanczos.py,work/nlp.py,work/miner.py \
+  --files work/shakespeare_tokens.pkl \
+  --conf "spark.python.worker.memory=3g" \
+  work/spark-k8s-experiment-14-online-learning.py 1> stdout 2> stderr
+```
